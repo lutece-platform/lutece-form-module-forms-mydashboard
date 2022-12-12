@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.plugins.forms.business.FormResponseHome;
+import fr.paris.lutece.plugins.forms.service.FormResponseService;
 import fr.paris.lutece.plugins.mydashboard.service.MyDashboardComponent;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
@@ -76,8 +77,7 @@ public class MyDashboardComponentFormResponses extends MyDashboardComponent
         {
             Map<String, Object> model = new HashMap< >( );
 
-            model.put( MARK_RESPONSE_LIST, FormResponseHome.getFormResponseByGuid( user.getName( ) ) );
-            
+            model.put( MARK_RESPONSE_LIST, FormResponseService.getInstance( ).getFormResponseForUser( user ));            		            
             HtmlTemplate htmTemplate = AppTemplateService.getTemplate( TEMPLATE_VIEW_FORMRESPONSES_LIST, request.getLocale( ), model);
             
             return htmTemplate.getHtml( );
