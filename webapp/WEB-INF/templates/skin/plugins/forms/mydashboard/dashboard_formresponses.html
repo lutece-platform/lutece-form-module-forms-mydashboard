@@ -10,7 +10,7 @@
 					<th>#i18n{module.forms.mydashboard.myformresponses.labelActions}</th>
 				</thead>
 				<tbody>
-					<#list response_list as response>
+					<#list response_data_list as response>
 						<tr>
 							<td>${response.formTitle}</td>
 							<td>${response.dateUpdate?date}</td>
@@ -23,6 +23,11 @@
 							</td>
 						</tr>
 					</#list>
+					<!--  
+					//You have the possibility to customize the template to extract information from the list of the FormResponse object.					
+					<#list response_list as response>
+					</#list>
+					-->
 				</tbody>
 			</table>
 		</div>

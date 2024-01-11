@@ -34,14 +34,17 @@
 package fr.paris.lutece.plugins.forms.modules.mydashboard.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.plugins.forms.business.FormResponse;
 import fr.paris.lutece.plugins.forms.business.FormResponseHome;
 import fr.paris.lutece.plugins.forms.service.FormResponseService;
+import fr.paris.lutece.plugins.forms.util.FormsResponseUtils;
 import fr.paris.lutece.plugins.mydashboard.service.MyDashboardComponent;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
@@ -64,6 +67,7 @@ public class MyDashboardComponentFormResponses extends MyDashboardComponent
 
     private static final String TEMPLATE_VIEW_FORMRESPONSES_LIST = "skin/plugins/forms/mydashboard/dashboard_formresponses.html";
     private static final String MARK_RESPONSE_LIST               = "response_list";
+    private static final String MARK_RESPONSE_DATA_LIST			= "response_data_list";
     private static final String DASHBOARD_COMPONENT_ID           = "formResponses.myDashboardComponentFormResponses";
     private static final String MESSAGE_COMPONENT_DESCRIPTION    = "module.forms.mydashboard.myDashboardComponentFormResponses.description";
 
@@ -76,8 +80,10 @@ public class MyDashboardComponentFormResponses extends MyDashboardComponent
         if ( user != null )
         {
             Map<String, Object> model = new HashMap< >( );
+            List<FormResponse> formResponseList= FormResponseService.getInstance( ).getFormResponseForUser( user );
+            model.put( MARK_RESPONSE_LIST, formResponseList);            		            
+            model.put( MARK_RESPONSE_DATA_LIST, FormsResponseUtils.filterFormResponseListForLuteceUser(formResponseList,user));
 
-            model.put( MARK_RESPONSE_LIST, FormResponseService.getInstance( ).getFormResponseForUser( user ));            		            
             HtmlTemplate htmTemplate = AppTemplateService.getTemplate( TEMPLATE_VIEW_FORMRESPONSES_LIST, request.getLocale( ), model);
             
             return htmTemplate.getHtml( );
