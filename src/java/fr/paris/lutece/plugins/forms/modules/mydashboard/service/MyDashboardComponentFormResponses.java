@@ -37,7 +37,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -57,6 +60,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  * MyDashboardComponentFormResponsesi
  *
  */
+@ApplicationScoped
+@Named( "forms-mydashboard.myDashboardComponentFormResponses" )
 public class MyDashboardComponentFormResponses extends MyDashboardComponent
 {
 
@@ -71,6 +76,9 @@ public class MyDashboardComponentFormResponses extends MyDashboardComponent
     private static final String DASHBOARD_COMPONENT_ID           = "formResponses.myDashboardComponentFormResponses";
     private static final String MESSAGE_COMPONENT_DESCRIPTION    = "module.forms.mydashboard.myDashboardComponentFormResponses.description";
 
+    @Inject
+    private FormResponseService _formResponseService;
+
 
     
 	@Override
@@ -80,7 +88,7 @@ public class MyDashboardComponentFormResponses extends MyDashboardComponent
         if ( user != null )
         {
             Map<String, Object> model = new HashMap< >( );
-            List<FormResponse> formResponseList= FormResponseService.getInstance( ).getFormResponseForUser( user );
+            List<FormResponse> formResponseList= _formResponseService.getFormResponseForUser( user );
             model.put( MARK_RESPONSE_LIST, formResponseList);            		            
             model.put( MARK_RESPONSE_DATA_LIST, FormsResponseUtils.filterFormResponseListForLuteceUser(formResponseList,user));
 
